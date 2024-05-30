@@ -18,7 +18,7 @@ Example:
 rq getobject objectid=12345 -e dev
 ```
 
-This looks for the scenario file (`rq.json`):
+This looks for the `getobject` scenario in a scenario file (`rq.json`):
 
 ```
 {
@@ -56,7 +56,7 @@ This looks for the scenario file (`rq.json`):
 }
 ```
 
-`-e dev` refers to an env file with defaults (`dev.env.json`)
+`-e dev` refers to an env file with defaults (`dev.env.json`):
 
 ```
 {
@@ -76,3 +76,5 @@ This looks for the scenario file (`rq.json`):
     ]
 }
 ```
+
+`objectid=12345` provides an extra input, merged with defaults
