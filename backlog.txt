@@ -1,0 +1,12 @@
+- --iterate over requests--
+- --connect inputs to outputs--
+- --accept inputs from command line--
+- --read input defaults from env files--
+- --support PUT--
+- --support DELETE--
+- --verbose output--
+
+- print out all the values that could not replace
+
+- support reading an input parameter from a file
+- allow headers to be outputs
