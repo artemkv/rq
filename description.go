@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-type configData struct {
+type scenarioDescriptionData struct {
 	Scenarios map[string]scenarioData `json:"scenarios"`
 	Requests  map[string]requestData  `json:"requests"`
 }
@@ -28,19 +28,17 @@ type requestOutputData struct {
 	Value string `json:"value"`
 }
 
-func getConfig() (*configData, error) {
-	// TODO: check "rq.go" exists
-
-	configJson, err := os.ReadFile("rq.json")
+func readScenarioDescription() (*scenarioDescriptionData, error) {
+	scenarioJson, err := os.ReadFile("rq.json")
 	if err != nil {
 		return nil, fmt.Errorf("failed to read 'rq.json': %w", err)
 	}
 
-	var config configData
-	err = json.Unmarshal(configJson, &config)
+	var scenarioDescription scenarioDescriptionData
+	err = json.Unmarshal(scenarioJson, &scenarioDescription)
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse 'rq.json': %w", err)
 	}
 
-	return &config, nil
+	return &scenarioDescription, nil
 }

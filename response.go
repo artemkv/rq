@@ -9,25 +9,13 @@ import (
 	"github.com/PaesslerAG/jsonpath"
 )
 
-func getBody(resp *http.Response) ([]byte, error) {
+func readBody(resp *http.Response) ([]byte, error) {
 	defer resp.Body.Close()
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
 	return body, nil
-}
-
-func printResponse(resp *http.Response, body []byte) error {
-	fmt.Printf("%v\n", resp.Status)
-	for header := range resp.Header {
-		for _, headerValue := range resp.Header[header] {
-			fmt.Printf("%s: %s\n", header, headerValue)
-		}
-	}
-	fmt.Println("")
-	fmt.Printf("%s\n", string(body[:]))
-	return nil
 }
 
 func extractOutputs(body []byte, outputs []requestOutputData) (map[string]string, error) {

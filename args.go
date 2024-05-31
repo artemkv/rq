@@ -5,41 +5,44 @@ import (
 	"strings"
 )
 
-func parseArgs(argsWithoutProg []string) (string, string, map[string]string, bool, error) {
-	scenarioName := ""
-	if len(argsWithoutProg) > 0 {
-		scenarioName = argsWithoutProg[0]
+func parseArgs(argsWithoutProg []string) (*contextData, error) {
+	context := &contextData{
+		scenarioName: "",
+		envName:      "",
+		overrides:    make(map[string]string),
+		isVerbose:    false,
 	}
 
-	env := ""
-	inputs := make(map[string]string)
-	isVerbose := false
+	if len(argsWithoutProg) > 0 {
+		context.scenarioName = argsWithoutProg[0]
+	}
+
 	skip := false
 	if len(argsWithoutProg) > 1 {
-		for idx, arg := range argsWithoutProg[1:] {
+		restOfArgs := argsWithoutProg[1:]
+		for idx, arg := range restOfArgs {
 			if skip {
 				skip = false
 				continue
 			}
 
-			// TODO: refactor a bit
 			if arg == "-e" {
-				if len(argsWithoutProg[1:]) <= idx+1 {
-					return "", "", nil, false, fmt.Errorf("found '-e' but missing environment name")
+				if len(restOfArgs) <= idx+1 {
+					return nil, fmt.Errorf("found '-e' but missing environment name")
 				}
-				env = argsWithoutProg[1:][idx+1]
+				context.envName = restOfArgs[idx+1]
 				skip = true
 			} else if arg == "-v" {
-				isVerbose = true
+				context.isVerbose = true
 			} else {
 				parts := strings.Split(arg, "=")
 				if len(parts) != 2 {
-					return "", "", nil, false, fmt.Errorf("argument format '%s' is not recognized", arg)
+					return nil, fmt.Errorf("argument format '%s' is not recognized", arg)
 				}
-				inputs[parts[0]] = parts[1]
+				context.overrides[parts[0]] = parts[1]
 			}
 		}
 	}
 
-	return scenarioName, env, inputs, isVerbose, nil
+	return context, nil
 }

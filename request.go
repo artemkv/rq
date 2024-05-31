@@ -6,15 +6,6 @@ import (
 	"strings"
 )
 
-func printRequest(req *requestData) {
-	fmt.Printf("%s %s\n", req.Method, req.Url)
-	for header, headerValue := range req.Headers {
-		fmt.Printf("%s: %s\n", header, headerValue)
-	}
-	fmt.Println("")
-	fmt.Printf("%s\n", req.Body)
-}
-
 func makeRequest(req *requestData) (*http.Response, error) {
 	if strings.EqualFold(req.Method, "get") {
 		resp, err := Get(req.Url, req.Headers)

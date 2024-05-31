@@ -15,7 +15,7 @@ type envInputData struct {
 	Value string `json:"value"`
 }
 
-func loadEnvDefaults(name string) (map[string]string, error) {
+func readEnvDefaults(name string) (map[string]string, error) {
 	if name == "" {
 		return make(map[string]string), nil
 	}
